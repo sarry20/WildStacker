@@ -8,6 +8,8 @@ import com.bgsoftware.wildstacker.utils.GeneralUtils;
 import com.bgsoftware.wildstacker.utils.files.FileUtils;
 import com.bgsoftware.wildstacker.utils.files.SoundWrapper;
 import com.bgsoftware.wildstacker.utils.items.ItemBuilder;
+import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -86,11 +88,11 @@ public final class SpawnerUpgradeMenu extends WildMenu {
         }
 
         double upgradeCost = nextUpgrade.getCost();
-
+        String currency = nextUpgrade.getCurrency();
         if (plugin.getSettings().spawnerUpgradesMultiplyStackAmount)
             upgradeCost *= stackedSpawner.getStackAmount();
 
-        if (upgradeCost > 0 && plugin.getProviders().getEconomyProvider().getMoneyInBank(player) < upgradeCost) {
+        if (upgradeCost > 0 && plugin.getProviders().getEconomyProvider().getMoneyInBank(player,currency) < upgradeCost) {
             Locale.SPAWNER_UPGRADE_NOT_ENOUGH_MONEY.send(player, GeneralUtils.format(upgradeCost));
             if (failureSound != null)
                 failureSound.playSound(player);
@@ -105,7 +107,7 @@ public final class SpawnerUpgradeMenu extends WildMenu {
         Locale.SPAWNER_UPGRADE_SUCCESS.send(player);
 
         if (upgradeCost > 0)
-            plugin.getProviders().getEconomyProvider().withdrawMoney(player, upgradeCost);
+            plugin.getProviders().getEconomyProvider().withdrawMoney(player,currency, upgradeCost);
 
         open(player, stackedSpawner);
     }
@@ -116,8 +118,8 @@ public final class SpawnerUpgradeMenu extends WildMenu {
     }
 
     @Override
-    protected Inventory buildInventory() {
-        Inventory inventory = super.buildInventory();
+    protected Inventory buildInventory(Player player) {
+        Inventory inventory = super.buildInventory(null);
         StackedSpawner stackedSpawner = this.stackedSpawner.get();
 
         if (stackedSpawner != null) {
@@ -125,6 +127,7 @@ public final class SpawnerUpgradeMenu extends WildMenu {
             {
                 ItemStack rawCurrentIcon = spawnerUpgrade.getIcon();
                 ItemMeta rawCurrentItemMeta = rawCurrentIcon.getItemMeta();
+                rawCurrentItemMeta.setLore(PlaceholderAPI.setPlaceholders(player,rawCurrentItemMeta.getLore()));
                 ItemStack currentIcon = new ItemBuilder(rawCurrentIcon)
                         .withName(Locale.UPGRADE_CURRENT.getMessage() + rawCurrentItemMeta.getDisplayName())
                         .withLore(rawCurrentItemMeta.getLore().stream().filter(line -> !line.contains("%cost%"))

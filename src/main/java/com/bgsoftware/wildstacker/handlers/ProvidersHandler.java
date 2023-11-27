@@ -3,19 +3,7 @@ package com.bgsoftware.wildstacker.handlers;
 import com.bgsoftware.wildstacker.WildStackerPlugin;
 import com.bgsoftware.wildstacker.api.enums.StackCheckResult;
 import com.bgsoftware.wildstacker.api.objects.StackedEntity;
-import com.bgsoftware.wildstacker.hooks.ClaimsProvider;
-import com.bgsoftware.wildstacker.hooks.ConflictPluginFixer;
-import com.bgsoftware.wildstacker.hooks.CustomItemProvider;
-import com.bgsoftware.wildstacker.hooks.EconomyProvider;
-import com.bgsoftware.wildstacker.hooks.EconomyProvider_Default;
-import com.bgsoftware.wildstacker.hooks.EntityNameProvider;
-import com.bgsoftware.wildstacker.hooks.EntitySimilarityProvider;
-import com.bgsoftware.wildstacker.hooks.EntityTypeProvider;
-import com.bgsoftware.wildstacker.hooks.IDataSerializer;
-import com.bgsoftware.wildstacker.hooks.ItemEnchantProvider;
-import com.bgsoftware.wildstacker.hooks.RegionsProvider;
-import com.bgsoftware.wildstacker.hooks.SpawnersProvider;
-import com.bgsoftware.wildstacker.hooks.SpawnersProvider_Default;
+import com.bgsoftware.wildstacker.hooks.*;
 import com.bgsoftware.wildstacker.hooks.listeners.IEntityDeathListener;
 import com.bgsoftware.wildstacker.hooks.listeners.IEntityDuplicateListener;
 import com.bgsoftware.wildstacker.hooks.listeners.INameChangeListener;
@@ -152,8 +140,9 @@ public final class ProvidersHandler {
 
     private void loadEconomyProvider() {
         Optional<EconomyProvider> economyProvider;
-
-        if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+    if (Bukkit.getPluginManager().isPluginEnabled("ServerVariables")) {
+            economyProvider = Optional.of(new ServerVariables());
+        } else if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             economyProvider = createInstance("EconomyProvider_Vault");
         } else {
             economyProvider = Optional.of(new EconomyProvider_Default());

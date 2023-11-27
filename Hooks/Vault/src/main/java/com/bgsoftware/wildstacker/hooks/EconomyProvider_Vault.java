@@ -23,7 +23,7 @@ public final class EconomyProvider_Vault implements EconomyProvider {
     }
 
     @Override
-    public double getMoneyInBank(Player player) {
+    public double getMoneyInBank(Player player, String variable) {
         if (!econ.hasAccount(player))
             econ.createPlayerAccount(player);
 
@@ -31,7 +31,7 @@ public final class EconomyProvider_Vault implements EconomyProvider {
     }
 
     @Override
-    public void withdrawMoney(Player player, double amount) {
+    public void withdrawMoney(Player player, String variable, double amount) {
         if (!econ.hasAccount(player))
             econ.createPlayerAccount(player);
 

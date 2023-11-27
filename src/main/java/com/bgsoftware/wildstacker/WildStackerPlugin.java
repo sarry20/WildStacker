@@ -244,6 +244,7 @@ public final class WildStackerPlugin extends JavaPlugin implements WildStacker {
                 nmsSpawners = (NMSSpawners) Class.forName(String.format("com.bgsoftware.wildstacker.nms.%s.NMSSpawners", version)).newInstance();
                 nmsEntities = (NMSEntities) Class.forName(String.format("com.bgsoftware.wildstacker.nms.%s.NMSEntities", version)).newInstance();
                 nmsWorld = (NMSWorld) Class.forName(String.format("com.bgsoftware.wildstacker.nms.%s.NMSWorld", version)).newInstance();
+                System.out.println("adapter at load: "+nmsAdapter);
                 return true;
             } catch (Exception error) {
                 error.printStackTrace();

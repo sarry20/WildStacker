@@ -8,6 +8,8 @@ import com.bgsoftware.wildstacker.nms.entity.INMSEntityEquipment;
 import com.bgsoftware.wildstacker.nms.v1_8_R3.entity.NMSEntityEquipmentImpl;
 import com.bgsoftware.wildstacker.nms.v1_8_R3.serializers.DefaultDataSerializer;
 import com.bgsoftware.wildstacker.nms.v1_8_R3.serializers.EntityDataContainerSerializer;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import net.minecraft.server.v1_8_R3.Chunk;
 import net.minecraft.server.v1_8_R3.Entity;
 import net.minecraft.server.v1_8_R3.EntityLiving;
@@ -16,6 +18,8 @@ import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.NBTTagList;
 import org.bukkit.Bukkit;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
@@ -30,6 +34,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.UUID;
@@ -94,7 +99,6 @@ public final class NMSAdapter implements com.bgsoftware.wildstacker.nms.NMSAdapt
             }
         };
     }
-
     @Override
     public org.bukkit.inventory.ItemStack getPlayerSkull(org.bukkit.inventory.ItemStack bukkitItem, String texture) {
         ItemStack itemStack = CraftItemStack.asNMSCopy(bukkitItem);
@@ -116,9 +120,8 @@ public final class NMSAdapter implements com.bgsoftware.wildstacker.nms.NMSAdapt
         skullOwner.set("Properties", properties);
 
         nbtTagCompound.set("SkullOwner", skullOwner);
-
+        System.out.println("propierties: "+properties);
         itemStack.setTag(nbtTagCompound);
-
         return CraftItemStack.asBukkitCopy(itemStack);
     }
 

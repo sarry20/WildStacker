@@ -5,6 +5,7 @@ import com.bgsoftware.wildstacker.utils.files.SoundWrapper;
 import com.bgsoftware.wildstacker.utils.items.ItemBuilder;
 import com.bgsoftware.wildstacker.utils.pair.Pair;
 import com.bgsoftware.wildstacker.utils.threads.Executor;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -12,6 +13,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,9 +102,11 @@ public abstract class WildMenu implements InventoryHolder {
 
     @Override
     public Inventory getInventory() {
-        return buildInventory();
+        return buildInventory(null);
     }
-
+    public Inventory getInventory(Player player) {
+        return buildInventory(player);
+    }
     public void openMenu(Player player) {
         if (inventory == null) {
             if (Bukkit.isPrimaryThread()) {
@@ -110,7 +115,7 @@ public abstract class WildMenu implements InventoryHolder {
             }
 
             try {
-                inventory = getInventory();
+                inventory = getInventory(player);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 return;
@@ -130,15 +135,22 @@ public abstract class WildMenu implements InventoryHolder {
         });
     }
 
-    protected Inventory buildInventory() {
+    protected Inventory buildInventory(Player player) {
         MenuData menuData = getData();
 
         Inventory inventory = Bukkit.createInventory(this, menuData.rowsSize * 9, menuData.title);
 
         for (Map.Entry<Integer, ItemBuilder> itemStackEntry : menuData.fillItems.entrySet()) {
             ItemBuilder itemBuilder = itemStackEntry.getValue().copy();
-            if (itemStackEntry.getKey() >= 0)
-                inventory.setItem(itemStackEntry.getKey(), itemBuilder.build());
+            if (itemStackEntry.getKey() >= 0){
+                ItemStack stack = itemBuilder.build();
+                ItemMeta meta = stack.getItemMeta();
+                if (meta.hasLore()){
+                    meta.setLore(PlaceholderAPI.setPlaceholders(player,meta.getLore()));
+                    stack.setItemMeta(meta);
+                }
+                inventory.setItem(itemStackEntry.getKey(), stack);
+            }
         }
 
         return inventory;

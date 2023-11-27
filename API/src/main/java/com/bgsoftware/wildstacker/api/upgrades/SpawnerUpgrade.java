@@ -63,7 +63,17 @@ public interface SpawnerUpgrade {
      * @param cost The cost to set.
      */
     void setCost(double cost);
+    /**
+     * Get the currency.
+     */
+    String getCurrency();
 
+    /**
+     * Set the currency of the upgrade.
+     *
+     * @param currency The currency to set.
+     */
+    void setCurrency(String currency);
     /**
      * Get the display name of the upgrade.
      */

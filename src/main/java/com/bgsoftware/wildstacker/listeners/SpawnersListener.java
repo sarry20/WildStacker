@@ -10,6 +10,7 @@ import com.bgsoftware.wildstacker.api.objects.StackedEntity;
 import com.bgsoftware.wildstacker.api.objects.StackedSpawner;
 import com.bgsoftware.wildstacker.api.upgrades.SpawnerUpgrade;
 import com.bgsoftware.wildstacker.hooks.listeners.IStackedBlockListener;
+import com.bgsoftware.wildstacker.menu.SpawnerUpgradeMenu;
 import com.bgsoftware.wildstacker.menu.SpawnersManageMenu;
 import com.bgsoftware.wildstacker.objects.WStackedEntity;
 import com.bgsoftware.wildstacker.objects.WStackedSpawner;
@@ -107,7 +108,7 @@ public final class SpawnersListener implements Listener {
             amountToCharge = chargeInfo.getKey() * (chargeInfo.getValue() ? breakAmount : 1);
         }
 
-        if (amountToCharge > 0 && plugin.getProviders().getEconomyProvider().getMoneyInBank(player) < amountToCharge) {
+        if (amountToCharge > 0 && plugin.getProviders().getEconomyProvider().getMoneyInBank(player,"") < amountToCharge) {
             Locale.SPAWNER_BREAK_NOT_ENOUGH_MONEY.send(player, amountToCharge);
             return false;
         }
@@ -125,7 +126,7 @@ public final class SpawnersListener implements Listener {
                 block.setType(Material.AIR);
 
             if (amountToCharge > 0)
-                plugin.getProviders().getEconomyProvider().withdrawMoney(player, amountToCharge);
+                plugin.getProviders().getEconomyProvider().withdrawMoney(player,"", amountToCharge);
 
             Locale.SPAWNER_BREAK.send(player, EntityUtils.getFormattedType(entityType.name()), breakAmount, GeneralUtils.format(amountToCharge));
 
@@ -218,7 +219,7 @@ public final class SpawnersListener implements Listener {
                 amountToCharge = chargeInfo.getKey() * (chargeInfo.getValue() ? spawnerItemAmount : 1);
             }
 
-            if (amountToCharge > 0 && plugin.getProviders().getEconomyProvider().getMoneyInBank(e.getPlayer()) < amountToCharge) {
+            if (amountToCharge > 0 && plugin.getProviders().getEconomyProvider().getMoneyInBank(e.getPlayer(),"") < amountToCharge) {
                 Locale.SPAWNER_PLACE_NOT_ENOUGH_MONEY.send(e.getPlayer(), amountToCharge);
                 e.setCancelled(true);
                 stackedSpawner.remove();
@@ -308,7 +309,7 @@ public final class SpawnersListener implements Listener {
     private void finishSpawnerPlace(Player player, double amountToCharge, boolean replaceAir, EquipmentSlot usedHand,
                                     ItemStack limitItem, EntityType spawnerType, int spawnerItemAmount) {
         if (amountToCharge > 0)
-            plugin.getProviders().getEconomyProvider().withdrawMoney(player, amountToCharge);
+            plugin.getProviders().getEconomyProvider().withdrawMoney(player,"", amountToCharge);
 
         //Removing item from player's inventory
         if (replaceAir && player.getGameMode() != GameMode.CREATIVE)
@@ -612,7 +613,8 @@ public final class SpawnersListener implements Listener {
         StackedSpawner stackedSpawner = WStackedSpawner.of(e.getClickedBlock());
 
         if (plugin.getSettings().manageMenuEnabled && (!plugin.getSettings().sneakingOpenMenu || e.getPlayer().isSneaking())) {
-            SpawnersManageMenu.open(e.getPlayer(), stackedSpawner);
+            SpawnerUpgradeMenu.open(e.getPlayer(),stackedSpawner);
+//            SpawnersManageMenu.open(e.getPlayer(), stackedSpawner);
             e.setCancelled(true);
         } else if (plugin.getSettings().floatingSpawnerNames) {
             int spawnerAmount = stackedSpawner.getStackAmount();

@@ -39,6 +39,7 @@ public final class WSpawnerUpgrade implements SpawnerUpgrade {
 
     // Regular upgrade values
     private double cost;
+    private String currency;
     private String displayName = "";
 
     public WSpawnerUpgrade(String name, int id) {
@@ -97,6 +98,16 @@ public final class WSpawnerUpgrade implements SpawnerUpgrade {
     @Override
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    @Override
+    public String getCurrency() {
+        return currency;
+    }
+
+    @Override
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override

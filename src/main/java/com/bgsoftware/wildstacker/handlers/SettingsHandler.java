@@ -436,6 +436,7 @@ public final class SettingsHandler {
 
                         spawnerUpgrade.setDisplayName(upgrade.getString("display", ""));
                         spawnerUpgrade.setCost(upgrade.getDouble("cost", 0D));
+                        spawnerUpgrade.setCurrency(upgrade.getString("currency", ""));
 
                         if (lastKnownUpgrade != null && nextUpgradeId == upgrade.getInt("id", 0))
                             lastKnownUpgrade.setNextUpgrade(spawnerUpgrade);

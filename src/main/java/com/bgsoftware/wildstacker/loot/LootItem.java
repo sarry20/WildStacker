@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
@@ -143,9 +144,9 @@ public class LootItem {
         }
 
         if ((Boolean) jsonObject.getOrDefault("glow", false)) {
-            itemMeta.addEnchant(GlowEnchantment.getGlowEnchant(), 1, true);
+            itemMeta.addEnchant(Enchantment.SILK_TOUCH, 1, true);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
-
         itemStack.setItemMeta(itemMeta);
 
         if (jsonObject.containsKey("nbt-data")) {
