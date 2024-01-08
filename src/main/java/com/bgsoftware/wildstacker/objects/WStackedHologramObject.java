@@ -1,6 +1,10 @@
 package com.bgsoftware.wildstacker.objects;
 
-import com.bgsoftware.wildstacker.utils.holograms.Hologram;
+import eu.decentsoftware.holograms.api.DHAPI;
+import eu.decentsoftware.holograms.api.holograms.Hologram;
+
+import java.util.Collections;
+import java.util.Random;
 
 public abstract class WStackedHologramObject<T> extends WStackedObject<T> {
 
@@ -12,7 +16,7 @@ public abstract class WStackedHologramObject<T> extends WStackedObject<T> {
 
     public void removeHologram() {
         if (hologram != null) {
-            hologram.removeHologram();
+            hologram.delete();
             hologram = null;
         }
     }
@@ -21,15 +25,13 @@ public abstract class WStackedHologramObject<T> extends WStackedObject<T> {
         if (hologram == null) {
             if (!createIfNull)
                 return;
-            hologram = plugin.getNMSHolograms().createHologram(getLocation().add(0.5, 1, 0.5));
+            hologram = DHAPI.createHologram("WS-"+new Random().nextInt(),getLocation().add(0.5, 1.5, 0.5),true, Collections.singletonList(name));
         }
-
-        hologram.setHologramName(name);
+        DHAPI.setHologramLines(hologram,Collections.singletonList(name));
     }
 
     public Hologram createHologram() {
-        hologram = plugin.getNMSHolograms().createHologram(getLocation().add(0.5, 1, 0.5));
-        return hologram;
+        return DHAPI.createHologram("",getLocation().add(0.5, 1.5, 0.5),true);
     }
 
 }

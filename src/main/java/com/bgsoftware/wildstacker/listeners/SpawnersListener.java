@@ -612,7 +612,7 @@ public final class SpawnersListener implements Listener {
 
         StackedSpawner stackedSpawner = WStackedSpawner.of(e.getClickedBlock());
 
-        if (plugin.getSettings().manageMenuEnabled && (!plugin.getSettings().sneakingOpenMenu || e.getPlayer().isSneaking())) {
+        if (plugin.getSettings().manageMenuEnabled/* && (!plugin.getSettings().sneakingOpenMenu || e.getPlayer().isSneaking())*/) {
             SpawnerUpgradeMenu.open(e.getPlayer(),stackedSpawner);
 //            SpawnersManageMenu.open(e.getPlayer(), stackedSpawner);
             e.setCancelled(true);

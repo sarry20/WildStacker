@@ -224,6 +224,7 @@ public final class EntitiesListener implements Listener {
 
         // If the entity is already considered as "dead", then we don't deal any damage and return.
         if (stackedEntity.hasFlag(EntityFlag.DEAD_ENTITY)) {
+            System.out.println("Entity dead flag");
             damageEvent.setDamage(0);
             return;
         }
@@ -238,6 +239,7 @@ public final class EntitiesListener implements Listener {
             try {
                 this.entityDamageEventCalls.add(damageEvent);
                 // Call the event again.
+                System.out.println("call to damage event idk why");
                 Bukkit.getPluginManager().callEvent(damageEvent);
             } finally {
                 this.entityDamageEventCalls.remove(damageEvent);
@@ -260,6 +262,7 @@ public final class EntitiesListener implements Listener {
                 this.damageResults.put(damageEvent, damageResult);
             }
         } finally {
+            System.out.println("entity damage data: "+entityDamageData);
             if (entityDamageData != null)
                 entityDamageData.applyToEvent(damageEvent);
         }
@@ -283,7 +286,8 @@ public final class EntitiesListener implements Listener {
             shouldSimulateDeath = !stackedEntity.hasFlag(EntityFlag.AVOID_ONE_SHOT) && damager != null &&
                     plugin.getSettings().entitiesOneShotEnabled &&
                     GeneralUtils.contains(plugin.getSettings().entitiesOneShotWhitelist, stackedEntity) &&
-                    plugin.getSettings().entitiesOneShotTools.contains(damagerTool.getType().toString());
+                    plugin.getSettings().entitiesOneShotTools.contains(damagerTool.getType().toString()) &&
+                    !plugin.getSettings().entitiesOneShotBlackListedWorlds.contains(damager.getWorld().getName());
         }
 
         if (!shouldSimulateDeath) {

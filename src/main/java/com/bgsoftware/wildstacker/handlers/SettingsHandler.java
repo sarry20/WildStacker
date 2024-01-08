@@ -95,7 +95,7 @@ public final class SettingsHandler {
             entitiesNerfedBlacklist, stackDownTypes, keepLowestHealth, entitiesAutoExpPickup, entitiesOneShotWhitelist;
     public final Fast3EnumsArray<EntityType, SpawnCause, EntityDamageEvent.DamageCause> entitiesInstantKills;
     public final List<String> entitiesDisabledWorlds, entitiesDisabledRegions, entitiesNerfedWorlds, entitiesOneShotTools,
-            entitiesFilteredTransforms;
+            entitiesFilteredTransforms, entitiesOneShotBlackListedWorlds;
     public final List<Pattern> blacklistedEntitiesNames;
     public final Fast2EnumsMap<EntityType, SpawnCause, Integer> entitiesMergeRadius, entitiesLimits,
             minimumRequiredEntities, defaultUnstack;
@@ -284,6 +284,7 @@ public final class SettingsHandler {
         spawnCorpses = cfg.getBoolean("entities.spawn-corpses", true);
         entitiesOneShotEnabled = cfg.getBoolean("entities.one-shot.enabled", false);
         entitiesOneShotTools = cfg.getStringList("entities.one-shot.tools");
+        entitiesOneShotBlackListedWorlds = cfg.getStringList("entities.one-shot.worlds");
         entitiesOneShotWhitelist = Fast2EnumsArray.fromList(cfg.getStringList("entities.one-shot.whitelist"),
                 EntityType.class, SpawnCause.class);
         storeEntities = cfg.getBoolean("entities.store-entities", true);

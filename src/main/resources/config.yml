@@ -426,6 +426,9 @@ entities:
   one-shot:
     # Should this feature be enabled?
     enabled: false
+    # A list of blacklisted worlds
+    worlds:
+      - Dungeons
     # A list of tools that can one shot entities.
     tools:
       - DIAMOND_SWORD

@@ -120,7 +120,6 @@ public final class NMSAdapter implements com.bgsoftware.wildstacker.nms.NMSAdapt
         skullOwner.set("Properties", properties);
 
         nbtTagCompound.set("SkullOwner", skullOwner);
-        System.out.println("propierties: "+properties);
         itemStack.setTag(nbtTagCompound);
         return CraftItemStack.asBukkitCopy(itemStack);
     }

@@ -1,7 +1,12 @@
 group 'Hooks:NBTInjector'
-
+repositories {
+    maven {
+        name = "CodeMC"
+        url = uri("https://repo.codemc.io/repository/maven-public/")
+    }
+}
 dependencies {
-    compileOnly 'de.tr7zw:NBTAPI:2.6.0'
+    compileOnly("de.tr7zw:item-nbt-api-plugin:2.12.2")
     compileOnly "org.spigotmc:v1_8_R3-Taco:latest"
     compileOnly project(":API")
     compileOnly rootProject

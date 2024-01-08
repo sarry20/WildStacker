@@ -20,7 +20,6 @@ public class ServerVariables implements EconomyProvider {
 
     @Override
     public double getMoneyInBank(Player player, String variable) {
-        System.out.println(eco);
         return Double.parseDouble(eco.getPlayerByUUID(player.getUniqueId().toString()).getVariable(variable).getCurrentValue());
     }
 

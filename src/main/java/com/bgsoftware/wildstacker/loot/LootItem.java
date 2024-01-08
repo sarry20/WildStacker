@@ -144,7 +144,10 @@ public class LootItem {
         }
 
         if ((Boolean) jsonObject.getOrDefault("glow", false)) {
-            itemMeta.addEnchant(Enchantment.SILK_TOUCH, 1, true);
+            if(itemStack.getType() == Material.BLAZE_ROD)
+                itemMeta.addEnchant(Enchantment.SILK_TOUCH,1,true);
+            else
+                itemMeta.addEnchant(Enchantment.LURE, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         itemStack.setItemMeta(itemMeta);

@@ -153,7 +153,6 @@ public final class ItemBuilder {
     public ItemStack build(int amount) {
         itemStack.setItemMeta(itemMeta);
         itemStack.setAmount(amount);
-        System.out.println("adapter at use: "+plugin.getNMSAdapter());
         return texture == null ? itemStack : plugin.getNMSAdapter().getPlayerSkull(itemStack, texture);
     }
 

@@ -22,11 +22,11 @@ public final class DataSerializer_NBTInjector implements IDataSerializer, Listen
     private static final ReflectField<Entity> ENTITY_FIELD = new ReflectField<>(EntityEvent.class, Entity.class, "entity");
 
     public DataSerializer_NBTInjector(WildStackerPlugin plugin) {
-        if (NBTInjector.isInjected()) {
-            plugin.getSystemManager().setDataSerializer(this);
-            Bukkit.getPluginManager().registerEvents(this, plugin);
-            WildStackerPlugin.log("- Using NBTInjector to store entity data.");
-        }
+        NBTInjector.inject();
+        plugin.getSystemManager().setDataSerializer(this);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () ->Bukkit.getPluginManager().registerEvents(this, plugin),260L);
+        WildStackerPlugin.log("- Using NBTInjector to store entity data.");
+
     }
 
     @Override
